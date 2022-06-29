@@ -21,7 +21,7 @@ jobs:
         with:
             maven-version: 3.8.2
       - name: 生成jar包
-        run: maven clean package -Dmaven.test.skip=true
+        run: mvn clean package -Dmaven.test.skip=true
   build:
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags')
