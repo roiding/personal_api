@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    hikari:
+      pool-name: opensea-pool
+      minimum-idle: 3
+      maximum-pool-size: 5
+#开启驼峰命名法
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
