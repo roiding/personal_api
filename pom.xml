@@ -41,7 +41,7 @@
         </dependency>
     </dependencies>
     <build>
-        <finalName>person-api</finalName>
+        <finalName>personal-api</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
