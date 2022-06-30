@@ -20,6 +20,8 @@ jobs:
             maven-version: 3.8.2
       - name: 生成jar包
         run: mvn clean package -Dmaven.test.skip=true
+      - name: 查看文件目录
+        run: ls ${{ github.workspace }}/target
       - name: 生成版本号
         id: version_step
         run: |
@@ -40,18 +42,13 @@ jobs:
         run: |
             echo VERSION_TAG=$(echo ${{ steps.version_step.outputs.version_tag }} | tr '[:upper:]' '[:lower:]') >> $GITHUB_ENV
             echo LATEST_TAG=$(echo ${{ steps.version_step.outputs.latest_tag  }} | tr '[:upper:]' '[:lower:]') >> $GITHUB_ENV
-      - name: 查看文件目录结构
-        run: ｜
-          ls -al
-          cd ./target
-          ls -al
-#      - name: 打包并推送Docker镜像
-#        id: docker_build
-#        uses: docker/build-push-action@v2.3.0
-#        with:
-#            push: true
-#            tags: |
-#              ${{env.VERSION_TAG}}
-#              ${{env.LATEST_TAG}}
-#            build-args: |
-#              ${{steps.version_step.outputs.version}}
+      - name: 打包并推送Docker镜像
+        id: docker_build
+        uses: docker/build-push-action@v2.3.0
+        with:
+            push: true
+            tags: |
+              ${{env.VERSION_TAG}}
+              ${{env.LATEST_TAG}}
+            build-args: |
+              ${{steps.version_step.outputs.version}}
