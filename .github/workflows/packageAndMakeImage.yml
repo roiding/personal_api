@@ -3,10 +3,8 @@ on:
   push:
     tags:
       - 'v*'
-    branches:
-      - 'main'
 jobs:
-  package:
+  package-and-make-image:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -22,11 +20,6 @@ jobs:
             maven-version: 3.8.2
       - name: 生成jar包
         run: mvn clean package -Dmaven.test.skip=true
-  build:
-    runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags')
-    needs: package
-    steps:
       - name: 生成版本号
         id: version_step
         run: |
@@ -57,5 +50,3 @@ jobs:
               ${{env.LATEST_TAG}}
             build-args: |
               ${{steps.version_step.outputs.version}}
- 
-        
