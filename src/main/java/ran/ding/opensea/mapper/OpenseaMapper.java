@@ -11,6 +11,6 @@ public interface OpenseaMapper {
     /**
      * 获得所有的资产信息
      */
-    @Select("select name, image_url, token_id from opensea_asset")
+    @Select("select name, image_url, token_id from opensea_asset order by name desc")
     List<Asset> getAllAssets();
 }
