@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ran.ding.opensea.entity.Asset;
 import ran.ding.opensea.mapper.OpenseaMapper;
-import ran.ding.reslt.ResponseResult;
+import ran.ding.result.ResponseResult;
 
 import javax.annotation.Resource;
 import java.util.List;

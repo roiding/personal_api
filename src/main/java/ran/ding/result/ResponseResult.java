@@ -1,4 +1,4 @@
-package ran.ding.reslt;
+package ran.ding.result;
 
 import lombok.Data;
 
