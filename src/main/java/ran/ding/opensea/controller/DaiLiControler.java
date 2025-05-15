@@ -9,6 +9,9 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
+import java.net.InetAddress;
+import java.net.URL;
+import java.net.UnknownHostException;
 
 @RequestMapping("/daili")
 @RestController
@@ -39,8 +42,34 @@ public class DaiLiControler implements EnvironmentAware {
             // Basic认证格式是 username:password，我们取username部分作为token
             token = credentials.split(":")[0];
         }
+        
         // 校验token
         if(proxyToken.equals(token)){
+            try {
+                // 处理带有认证信息的URL
+                String urlWithoutAuth = proxyUrl;
+                if (proxyUrl.contains("@")) {
+                    urlWithoutAuth = "http://" + proxyUrl.substring(proxyUrl.indexOf("@") + 1);
+                }
+                
+                // 解析URL
+                URL url = new URL(urlWithoutAuth);
+                String host = url.getHost();
+                
+                // 检查是否是域名（简单判断是否包含字母）
+                if (host.matches(".*[a-zA-Z].*")) {
+                    // 解析域名获取IP
+                    InetAddress address = InetAddress.getByName(host);
+                    String ip = address.getHostAddress();
+                    
+                    // 替换域名为IP
+                    proxyUrl = proxyUrl.replace(host, ip);
+                }
+            } catch (Exception e) {
+                System.out.println("域名解析失败: " + e.getMessage());
+                // 如果解析失败，返回原始URL
+                return proxyUrl;
+            }
             return proxyUrl;
         }else{
             return "密钥不对,滚远点";
